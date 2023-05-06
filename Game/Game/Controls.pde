@@ -63,4 +63,5 @@ void mouseReleased() {
 //Detects scrolling mouse wheel
 void mouseWheel(MouseEvent event) {
   zoom += 20 * event.getCount(); //Used in views to zoom
+  zoom = constrain(zoom, -size*50, size*50);
 }

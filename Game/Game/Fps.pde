@@ -6,7 +6,7 @@ float sensitivity = 0.001;
 View view = View.FPS;
 float zoom = 100;
 
-Map map = new Map(1920, 1080, 10, 0, 250); //Land, terrain of the game world
+Map map = new Map(1920, 1080, 50, 0, 250); //Land, terrain of the game world
 
 void drawFPS() {
   fps.beginDraw();
@@ -30,8 +30,8 @@ void drawFPS() {
       0, -1, 0);
       break;
     case MAP:
-      fps.camera(width/2.0, height + zoom, height/2.0, width/2.0, 0, height/2.0, 0, 0, -1);
-      //fps.camera(player.pos.x, height + zoom, player.pos.z, player.pos.x, 0, player.pos.z, 0, 0, -1);
+      //fps.camera(width/2.0, height + zoom, height/2.0, width/2.0, 0, height/2.0, 0, 0, -1);
+      fps.camera(player.pos.x, height + zoom, player.pos.z, player.pos.x, 0, player.pos.z, 0, 0, -1);
 
       break;
   }
