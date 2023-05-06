@@ -5,9 +5,6 @@ import java.awt.AWTException;
 PGraphics fps, hud; //First Person Shooter, Heads-up display
 Robot robot;
 
-//PLAYER
-Player player = new Player();
-
 //GAME
 State state = State.PLAY;
 

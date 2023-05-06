@@ -6,7 +6,16 @@ float sensitivity = 0.001;
 View view = View.FPS;
 float zoom = 100;
 
-Map map = new Map(1920, 1080, 50, 0, 250); //Land, terrain of the game world
+//PLAYER
+Player player = new Player();
+
+//MAP
+int minH = 0;
+int maxH = 250;
+Map map = new Map(1920, 1080, 50, minH, maxH); //Land, terrain of the game world
+
+//FIRE
+Fire fire = new Fire(960,540);
 
 void drawFPS() {
   fps.beginDraw();
@@ -38,6 +47,7 @@ void drawFPS() {
 
 
   robot.mouseMove(width/2,height/2); //Move cursor back to center
+  fire.run();
   player.run();
   map.draw();
   fps.endDraw();

@@ -41,13 +41,16 @@ final class Player extends Entity {
   }
   
   void draw() {
+    fps.translate(this.pos.x, this.pos.y, this.pos.z);
+    fps.lightFalloff(0.8, 0.0, 0.00005); //Faster falloff
+    fps.pointLight(255, 255, 255, 0, maxH, 0);  //Vision light
+    fps.rotateY(this.rPos.y);
+    fps.rotateX(this.rPos.x);
     switch(view) {
       case FPS:
         break;
       case MAP:
-        fps.translate(this.pos.x, this.pos.y, this.pos.z);
-        fps.rotateY(this.rPos.y);
-        fps.rotateX(this.rPos.x);
+
         fps.box(size);
         break;
     }

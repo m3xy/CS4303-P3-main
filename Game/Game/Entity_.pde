@@ -6,7 +6,11 @@ abstract class Entity {
   float mass, damping;
   
   public Entity() {
-    this.pos = new PVector(0,0,0);
+    this(0,0,0);
+  }
+  
+  public Entity(int x, int y, int z) {
+    this.pos = new PVector(x,y,z);
     this.vel = new PVector(0,0,0);
     this.acc = new PVector(0,0,0);
     this.rPos = new PVector(0,0,0);
@@ -33,13 +37,13 @@ abstract class Entity {
   
   void update() { //or Integrate
     vel.mult(this.damping); //Apply damping
-    //rVel.mult(this.damping);
+    rVel.mult(this.damping);
     vel.add(acc); //Update velocity
-    //rVel.add(rAcc);
+    rVel.add(rAcc);
     pos.add(vel); //Update position
-    //rPos.add(rVel);
+    rPos.add(rVel);
     acc.mult(0); //Clear acceleration/accumlator
-    //rAcc.mult(0);
+    rAcc.mult(0);
   }
   
   abstract void draw();
