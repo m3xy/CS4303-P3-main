@@ -14,11 +14,11 @@ void drawFPS() {
   fps.background(20); //Dark BG (Darkness)
   //fps.lights();
   
-  fps.perspective(PI/3.0, float(width)/float(height), cameraZ/10.0, cameraZ*100.0); //Increase render distance
+  fps.perspective(PI/3.0, float(width)/float(height), cameraZ/50.0, cameraZ*20.0); //Increase render distance
   player.rPos.x -= sensitivity * (mouseY - height/2);
   player.rPos.y += sensitivity * (mouseX - width/2);
   //player.rPos.x = constrain(player.rPos.x, 0.000001, HALF_PI);
-  player.rPos.x = constrain(player.rPos.x, PI + 0.000001, TWO_PI);
+  player.rPos.x = constrain(player.rPos.x, PI + 0.01, TWO_PI);
   switch(view) {
     case FPS:
       //x: left right, y: top bottom, z: in out
