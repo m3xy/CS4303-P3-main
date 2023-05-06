@@ -1,4 +1,5 @@
 int speed = 1;
+int size = 10;
 final class Player extends Entity {
   boolean forward = false, backward = false, left = false, right = false;
   public Player() {
@@ -16,13 +17,10 @@ final class Player extends Entity {
     if(right)
       this.addForce(new PVector(speed*sin(this.rPos.y - HALF_PI),0,speed*cos(this.rPos.y - HALF_PI)));
     super.update();
-
-  
-
     
     //Collision with land
-    this.pos.x = constrain(this.pos.x, 0, (map.land.length * map.lod) - map.lod);
-    this.pos.z = constrain(this.pos.z, 0, (map.land[0].length * map.lod) - map.lod);
+    this.pos.x = constrain(this.pos.x, 0 + size/2, (map.land.length * map.lod) - map.lod - size/2);
+    this.pos.z = constrain(this.pos.z, 0 + size/2, (map.land[0].length * map.lod) - map.lod - size/2);
     //this.pos.y = map.land[(int)this.pos.x/map.lod][(int)this.pos.z/map.lod].h + 10;
     
     float x = this.pos.x/map.lod;
@@ -51,7 +49,7 @@ final class Player extends Entity {
         //fps.rotateX(this.rPos.x);
         //fps.rotateY(this.rPos.y);
         //fps.rotateZ(this.rPos.z);
-        fps.box(100);
+        fps.box(size);
         break;
     }
   }
