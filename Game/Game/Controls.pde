@@ -52,7 +52,7 @@ void mousePressed() {
 void mouseReleased() {
   switch(mouseButton) {
     case LEFT :
-      //player.fire();
+      player.fire();
       break;
     case RIGHT :
       //player.dash();

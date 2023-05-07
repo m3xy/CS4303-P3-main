@@ -1,4 +1,4 @@
 enum State {
-  //MENU,  //Game menu
+  MENU,  //Game menu
   PLAY  //Game play
 }

@@ -3,21 +3,23 @@ abstract class Entity {
   PVector pos, vel, acc, rPos, rVel, rAcc;
   
   //Mass and damping factor
-  float mass, damping;
+  float mass, damping, size, energy;
   
   public Entity() {
-    this(0,0,0);
+    this(new PVector(0,0,0), new PVector(0,0,0), 1, 0, 1, 1);
   }
   
-  public Entity(int x, int y, int z) {
-    this.pos = new PVector(x,y,z);
+  public Entity(PVector pos, PVector rPos, float mass, float damping, float size, float energy) {
+    this.pos = pos;
     this.vel = new PVector(0,0,0);
     this.acc = new PVector(0,0,0);
-    this.rPos = new PVector(0,0,0);
+    this.rPos = rPos;
     this.rVel = new PVector(0,0,0);
     this.rAcc = new PVector(0,0,0);
-    this.mass = 1;
-    this.damping = 0;
+    this.mass = mass;
+    this.damping = damping;
+    this.size = size;
+    this.energy = energy;
   }
   
   void run() {

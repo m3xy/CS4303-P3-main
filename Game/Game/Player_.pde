@@ -1,11 +1,11 @@
 int speed = 1;
 int size = 10;
+
 final class Player extends Entity {
   boolean forward = false, backward = false, left = false, right = false;
-  int hp, ammo;
   
-  public Player() {
-    super(); 
+  public Player(int x, int z) {
+    super(new PVector(x,0,z), new PVector(0,0,0), 1, 0, 10, 100); 
   }
   void update() {
     if(forward)
@@ -50,9 +50,14 @@ final class Player extends Entity {
       case FPS:
         break;
       case MAP:
-
         fps.box(size);
         break;
     }
+  }
+  
+  void fire() {
+    Bullet bullet = new Bullet(this);
+    bullets.add(bullet);
+    bullet.fire(100);
   }
 }

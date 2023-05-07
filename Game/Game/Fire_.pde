@@ -1,11 +1,8 @@
 final class Fire extends Entity {
   
-  float energy;
-  
   Fire(int x, int z) {
-    super(x, 0, z);
-    energy = 1920/2;
-
+    super(new PVector(x,0,z), new PVector(0,0,0), 1, 0, 1, Math.min(w, h)/2);
+    this.size = this.energy;
   }
   
   void update() {
@@ -35,6 +32,8 @@ final class Fire extends Entity {
     
     fps.noStroke();
     fps.translate(this.pos.x, this.pos.y, this.pos.z);
+    
+    //MODEL
     fps.spotLight(251, 183, 65, 0, (energy/tan(QUARTER_PI)), 0, 0, -1, 0, QUARTER_PI, 8);  //LIGHTING
     fps.scale(energy/25);  //Size of flame larger as energy increases
     fps.rotateY(random(TWO_PI));
