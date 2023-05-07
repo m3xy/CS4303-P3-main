@@ -4,7 +4,7 @@ final class Fire extends Entity {
   
   Fire(int x, int z) {
     super(x, 0, z);
-    energy = 1920/5;
+    energy = 1920/2;
 
   }
   
@@ -29,15 +29,13 @@ final class Fire extends Entity {
     float f2 = (((x2-x)/(x2-x1))*f12) + (((x-x1)/(x2-x1))*f22);
     this.pos.y = (((z2-z)/(z2-z1))*f1) + (((z-z1)/(z2-z1))*f2);
     super.update();
-    
-    //this.addTorque(new PVector(0.3*energy,energy,0.3*energy));
   }
   
   void draw() {
-    //LIGHTING
-    fps.spotLight(251, 183, 65, this.pos.x, maxH + (energy/tan(QUARTER_PI)), this.pos.z, 0, -1, 0, QUARTER_PI/HALF_PI, 1);  //Surrounding light
+    
     fps.noStroke();
     fps.translate(this.pos.x, this.pos.y, this.pos.z);
+    fps.spotLight(251, 183, 65, 0, (energy/tan(QUARTER_PI)), 0, 0, -1, 0, QUARTER_PI, 8);  //LIGHTING
     fps.scale(energy/25);  //Size of flame larger as energy increases
     fps.rotateY(random(TWO_PI));
     fps.rotateX(random(TWO_PI));
