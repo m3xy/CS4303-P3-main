@@ -6,7 +6,7 @@ final class Player extends Entity {
   int speed = 1;
   
   public Player(int x, int z) {
-    super(new PVector(x,0,z), new PVector(0,0,0), 1, 0, 10, 100); 
+    super(new PVector(x,0,z), new PVector(0,0,0), 1, 0.5, 10, 100); 
   }
   void update() {
     if(forward)
@@ -70,7 +70,7 @@ final class Player extends Entity {
   }
   
   void dash() {
-    this.addForce(this.vel.mult(80));
+    this.addForce(this.vel.mult(8));
     this.energy-=20;
   }
 }
