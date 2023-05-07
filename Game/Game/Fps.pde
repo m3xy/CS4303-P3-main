@@ -6,15 +6,15 @@ float sensitivity = 0.001;
 View view = View.FPS;
 float zoom = 100;
 
-//PLAYER
-Player player = new Player(0, 0);
-
 //MAP
 int w = 1920, h = 1080; //Width, Height
 int minH = 0;  //Minimum terrain height
 int maxH = 250;  //Maximum terrain height
 int lod = 50;  //Level of detail, (positive) Factor to divide the land into columns and rows (Recommended 50 but can go above/below slightly for more or less detail - values: 1 to 100)
 Map map = new Map(w, h, lod, minH, maxH); //Land, terrain of the game world
+
+//PLAYER
+Player player = new Player((w/2) + lod, (h/2) + lod);
 
 //FIRE
 Fire fire = new Fire(w/2, h/2);
@@ -25,7 +25,7 @@ ArrayList<Bullet> bullets = new ArrayList<>();
 void drawFPS() {
   fps.beginDraw();
   
-  fps.background(20); //Dark BG (Darkness)
+  fps.background(20,20,25); //Dark BG (Dark sky)
   fps.lights();
   
   fps.perspective(PI/3.0, float(width)/float(height), cameraZ/50.0, cameraZ*20.0); //Increase render distance

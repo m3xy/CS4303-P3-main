@@ -3,10 +3,10 @@ long cooldown = 100; //ms
 final class Player extends Entity {
   boolean forward = false, backward = false, left = false, right = false, firing = false;
   long cd = 0;
-  int speed = 1;
+  float speed = 0.5;
   
   public Player(int x, int z) {
-    super(new PVector(x,0,z), new PVector(0,0,0), 1, 0.5, 10, 100); 
+    super(new PVector(x,0,z), new PVector(PI+QUARTER_PI,random(TWO_PI),0), 1, 0.5, 0.25, 100);
   }
   void update() {
     if(forward)
@@ -48,16 +48,20 @@ final class Player extends Entity {
   }
   
   void draw() {
+    hero.setFill(color(255));
     fps.translate(this.pos.x, this.pos.y, this.pos.z);
     //fps.lightFalloff(0.8, 0.0, 0.00005); //Faster falloff
     //fps.pointLight(255, 255, 255, 0, maxH, 0);  //Vision light
-    fps.rotateY(this.rPos.y);
-    fps.rotateX(this.rPos.x);
+    fps.rotateY(this.rPos.y + PI);
+    //fps.rotateX(-this.rPos.x - HALF_PI);
+    //fps.rotateZ(this.rPos.z);
     switch(view) {
       case FPS:
         break;
       case MAP:
-        fps.box(size);
+        fps.scale(size);
+        fps.shape(hero);
+        
         break;
     }
   }
@@ -66,11 +70,11 @@ final class Player extends Entity {
     Bullet bullet = new Bullet(this);
     bullets.add(bullet);
     bullet.fire();
-    this.energy-=1;
+    this.energy-=2;
   }
   
   void dash() {
-    this.addForce(this.vel.mult(8));
-    this.energy-=20;
+    this.addForce(this.vel.mult(10));
+    this.energy-=5;
   }
 }

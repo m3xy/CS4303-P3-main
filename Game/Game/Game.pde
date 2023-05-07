@@ -9,11 +9,19 @@ Robot robot;
 //GAME
 State state = State.PLAY;
 
+//Player
+PShape hero;
+
+//Enemy
+PShape ghost;
+
 //SETUP
 void setup() {
   size(1920, 1080);
   w = width;
   h = height;
+  hero = loadShape("hero.obj");
+  ghost = loadShape("ghost.obj");
   fullScreen(P2D, SPAN);                        //Menu
   fps = createGraphics(width, height, P3D);     //First person view
   hud = createGraphics(width, height, JAVA2D);  //Heads-up display

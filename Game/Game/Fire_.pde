@@ -1,7 +1,7 @@
 final class Fire extends Entity {
-  
+  float decay;
   Fire(int x, int z) {
-    super(new PVector(x,0,z), new PVector(0,0,0), 1, 0, 1, Math.min(w, h)/2);
+    super(new PVector(x,0,z), new PVector(0,0,0), 1, 0, 1, Math.max(w, h));
     this.size = this.energy/25;
   }
   
@@ -26,20 +26,44 @@ final class Fire extends Entity {
     float f2 = (((x2-x)/(x2-x1))*f12) + (((x-x1)/(x2-x1))*f22);
     this.pos.y = (((z2-z)/(z2-z1))*f1) + (((z-z1)/(z2-z1))*f2);
     super.update();
+    
+    
+    //HEAL
+    if(PVector.dist(this.pos, player.pos) < this.energy && player.energy < 100 && this.energy > 0)
+      player.energy += 0.1;
+    else
+      player.energy -= 0.1;  
+      
+    //DECAY
+    this.energy *= map(this.energy, 0, Math.max(w,h), 0.9998, 0.999);
+    if(this.energy <= lod)
+      this.energy = 0;
+    this.size = this.energy/25;
   }
   
   void draw() {
     
     fps.noStroke();
     fps.translate(this.pos.x, this.pos.y, this.pos.z);
+    fps.spotLight(251, 183, 65, 0, (energy/tan(QUARTER_PI)), 0, 0, -1, 0, QUARTER_PI, 1);  //LIGHTING
     
     //MODEL
-    fps.spotLight(251, 183, 65, 0, (energy/tan(QUARTER_PI)), 0, 0, -1, 0, QUARTER_PI, 8);  //LIGHTING
     fps.scale(this.size);  //Size of flame larger as energy increases
+    
+    //WOOD
+    //fps.fill(164,116,73);
+    //fps.box(4,0.4,0.4);
+    //fps.box(0.4,0.4,4);
+    //fps.rotateY(QUARTER_PI);
+    //fps.box(4,0.4,0.4);
+    //fps.box(0.4,0.4,4);
+    //fps.translate(0, 0.5, 0);
+    
+    //FIRE
     fps.rotateY(random(TWO_PI));
     fps.rotateX(random(TWO_PI));
-    fps.rotateZ(random(TWO_PI));
-    
+    fps.rotateZ(random(TWO_PI)); 
+
     fps.fill(251, 183, 65);
     fps.beginShape(TRIANGLES);
     fps.vertex(1,1,1);
@@ -87,7 +111,7 @@ final class Fire extends Entity {
     fps.vertex(0, 1, 1/(float)Math.sqrt(2));
     fps.vertex(0, -1, 1/(float)Math.sqrt(2));
     fps.endShape();
-
+    
     fps.fill(100);
     fps.stroke(0);
   }
