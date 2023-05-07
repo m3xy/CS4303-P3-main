@@ -1,50 +1,62 @@
 void keyPressed() {
-  switch (key) {  //Movement
-    case 'w' :
-      player.forward = true;
-      break;
-    case 'a' :
-      player.left = true;
-      break;
-    case 's' :
-      player.backward = true;
-      break;
-    case 'd' :
-      player.right = true;
-      break;
-    case TAB :   //INVENTORY
-      view = View.MAP;
-      break;
+  if (key == CODED) {  
+    switch (keyCode) {
+    }
+  } else {
+    switch (key) {  //Movement
+      case 'w' :
+        player.forward = true;
+        break;
+      case 'a' :
+        player.left = true;
+        break;
+      case 's' :
+        player.backward = true;
+        break;
+      case 'd' :
+        player.right = true;
+        break;
+      case TAB :   //Map
+        view = View.MAP;
+        break;
+    }
   }
 }
 
 void keyReleased() {
-  switch (key) {  //Movement
-    case TAB :
-      view = View.FPS;
-      break;
-    case 'w' :
-      player.forward = false;
-      break;
-    case 'a' :
-      player.left = false;
-      break;
-    case 's' :
-      player.backward = false;
-      break;
-    case 'd' :
-      player.right = false;
-      break;
+  if (key == CODED) {
+    switch (keyCode) {
+    }
+    
+  } else {
+    switch (key) {  //Movement
+      case 'w' :
+        player.forward = false;
+        break;
+      case 'a' :
+        player.left = false;
+        break;
+      case 's' :
+        player.backward = false;
+        break;
+      case 'd' :
+        player.right = false;
+        break;
+      case TAB :    //Map
+        view = View.FPS;
+        break;
+    }
   }
+
 }
 
 void mousePressed() {
   switch(mouseButton) {
     case LEFT :
-      //player.fire();
+      player.firing = true;
       break;
     case RIGHT :
-      //player.dash();
+      player.dash();
       break;
   }
 }
@@ -52,10 +64,7 @@ void mousePressed() {
 void mouseReleased() {
   switch(mouseButton) {
     case LEFT :
-      player.fire();
-      break;
-    case RIGHT :
-      //player.dash();
+      player.firing = false;
       break;
   }
 }
@@ -63,5 +72,5 @@ void mouseReleased() {
 //Detects scrolling mouse wheel
 void mouseWheel(MouseEvent event) {
   zoom += 20 * event.getCount(); //Used in views to zoom
-  zoom = constrain(zoom, -size*50, size*50);
+  zoom = constrain(zoom, -player.size*50, player.size*50);
 }

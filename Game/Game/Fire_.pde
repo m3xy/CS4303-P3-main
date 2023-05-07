@@ -2,7 +2,7 @@ final class Fire extends Entity {
   
   Fire(int x, int z) {
     super(new PVector(x,0,z), new PVector(0,0,0), 1, 0, 1, Math.min(w, h)/2);
-    this.size = this.energy;
+    this.size = this.energy/25;
   }
   
   void update() {
@@ -35,7 +35,7 @@ final class Fire extends Entity {
     
     //MODEL
     fps.spotLight(251, 183, 65, 0, (energy/tan(QUARTER_PI)), 0, 0, -1, 0, QUARTER_PI, 8);  //LIGHTING
-    fps.scale(energy/25);  //Size of flame larger as energy increases
+    fps.scale(this.size);  //Size of flame larger as energy increases
     fps.rotateY(random(TWO_PI));
     fps.rotateX(random(TWO_PI));
     fps.rotateZ(random(TWO_PI));
@@ -89,6 +89,6 @@ final class Fire extends Entity {
     fps.endShape();
 
     fps.fill(100);
-    fps.stroke(0,0,0);
+    fps.stroke(0);
   }
 }

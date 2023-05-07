@@ -1,8 +1,9 @@
-int speed = 1;
-int size = 10;
+long cooldown = 100; //ms
 
 final class Player extends Entity {
-  boolean forward = false, backward = false, left = false, right = false;
+  boolean forward = false, backward = false, left = false, right = false, firing = false;
+  long cd = 0;
+  int speed = 1;
   
   public Player(int x, int z) {
     super(new PVector(x,0,z), new PVector(0,0,0), 1, 0, 10, 100); 
@@ -38,6 +39,12 @@ final class Player extends Entity {
     float f2 = (((x2-x)/(x2-x1))*f12) + (((x-x1)/(x2-x1))*f22);
     this.pos.y = (((z2-z)/(z2-z1))*f1) + (((z-z1)/(z2-z1))*f2) + 10;
     
+    if(firing && System.currentTimeMillis() - cd >= cooldown) {
+      fire();
+      cd = System.currentTimeMillis();
+    }
+      
+    
   }
   
   void draw() {
@@ -58,6 +65,12 @@ final class Player extends Entity {
   void fire() {
     Bullet bullet = new Bullet(this);
     bullets.add(bullet);
-    bullet.fire(100);
+    bullet.fire();
+    this.energy-=1;
+  }
+  
+  void dash() {
+    this.addForce(this.vel.mult(80));
+    this.energy-=20;
   }
 }

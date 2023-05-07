@@ -1,8 +1,8 @@
 import java.awt.Robot;
 import java.awt.AWTException;
+import java.util.Iterator;
 
 //DISPLAY
-int w = 1920, h = 1080; //Width, Height
 PGraphics fps, hud; //First Person Shooter, Heads-up display
 Robot robot;
 

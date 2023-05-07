@@ -10,12 +10,14 @@ float zoom = 100;
 Player player = new Player(0, 0);
 
 //MAP
-int minH = 0;
-int maxH = 250;
-Map map = new Map(1920, 1080, 50, minH, maxH); //Land, terrain of the game world
+int w = 1920, h = 1080; //Width, Height
+int minH = 0;  //Minimum terrain height
+int maxH = 250;  //Maximum terrain height
+int lod = 50;  //Level of detail, (positive) Factor to divide the land into columns and rows (Recommended 50 but can go above/below slightly for more or less detail - values: 1 to 100)
+Map map = new Map(w, h, lod, minH, maxH); //Land, terrain of the game world
 
 //FIRE
-Fire fire = new Fire(1920/2, 1080/2);
+Fire fire = new Fire(w/2, h/2);
 
 //BULLETS
 ArrayList<Bullet> bullets = new ArrayList<>();
@@ -49,8 +51,13 @@ void drawFPS() {
   }
   fire.run();
   player.run();
-  for(Bullet bullet : bullets) 
+  for (Iterator<Bullet> iterator = bullets.iterator(); iterator.hasNext(); ) {
+    Bullet bullet = iterator.next();
     bullet.run();
+    if ((int)bullet.vel.mag() < 1) {
+      iterator.remove();
+    }
+  }
   map.draw();
   fps.endDraw();
   image(fps, 0, 0);
