@@ -21,7 +21,7 @@ void drawFPS() {
   fps.beginDraw();
   
   fps.background(20); //Dark BG (Darkness)
-  //fps.lights();
+  fps.lights();
   
   fps.perspective(PI/3.0, float(width)/float(height), cameraZ/50.0, cameraZ*20.0); //Increase render distance
   player.rPos.x -= sensitivity * (mouseY - height/2);

@@ -4,7 +4,7 @@ final class Fire extends Entity {
   
   Fire(int x, int z) {
     super(x, 0, z);
-    energy = 10;
+    energy = 1920/5;
 
   }
   
@@ -30,29 +30,21 @@ final class Fire extends Entity {
     this.pos.y = (((z2-z)/(z2-z1))*f1) + (((z-z1)/(z2-z1))*f2);
     super.update();
     
-    this.addTorque(new PVector(0.3*energy,energy,0.3*energy));
+    //this.addTorque(new PVector(0.3*energy,energy,0.3*energy));
   }
   
   void draw() {
-    //Lighting
-    float brightness = random(255);
-    fps.fill(brightness, brightness, random(50, 80));
+    //LIGHTING
+    fps.spotLight(251, 183, 65, this.pos.x, maxH + (energy/tan(QUARTER_PI)), this.pos.z, 0, -1, 0, QUARTER_PI/HALF_PI, 1);  //Surrounding light
+    fps.noStroke();
     fps.translate(this.pos.x, this.pos.y, this.pos.z);
-    //fps.lightFalloff(0.0, 0.0, map(energy, 0, 100, 0.00005, 0.00000003)); //Slower falloff
-    //fps.lightFalloff(map(energy, 0, 100, 1.0, 0.001), 0.0, 0.0); //Slower falloff
-    fps.lightFalloff(0.0, map(energy, 0, 100, 0.01, 0.0005), 0.0); //Slower falloff
-    fps.pointLight(255, 255, 255, 0, maxH, 0);  //Vision light
-    //fps.spotLight(255, 255, 255, 0, maxH, 0, 0, -1, 0, PI, map(energy, 0, 100, 3, 0));  //Flashlight light
-    fps.rotateY(this.rPos.y);
-    fps.rotateX(this.rPos.x);
-    fps.rotateZ(this.rPos.z);
-    fps.scale(energy);
+    fps.scale(energy/25);  //Size of flame larger as energy increases
+    fps.rotateY(random(TWO_PI));
+    fps.rotateX(random(TWO_PI));
+    fps.rotateZ(random(TWO_PI));
     
-    
-    
-    
+    fps.fill(251, 183, 65);
     fps.beginShape(TRIANGLES);
-    fps.stroke(random(255), random(50), random(50));
     fps.vertex(1,1,1);
     fps.vertex(1,-1,-1);
     fps.vertex(-1,1,-1);
@@ -65,36 +57,41 @@ final class Fire extends Entity {
     fps.vertex(1,1,1);
     fps.vertex(-1,1,-1);
     fps.vertex(-1,-1,1);
-    
-    //fps.vertex(-1,-1,-1);
-    //fps.vertex(-1,1,1);
-    //fps.vertex(1,-1,1);
-    //fps.vertex(-1,1,1);
-    //fps.vertex(1,-1,1);
-    //fps.vertex(1,1,-1);
-    //fps.vertex(-1,-1,-1);
-    //fps.vertex(-1,1,1);
-    //fps.vertex(1,1,-1);
-    //fps.vertex(-1,-1,-1);
-    //fps.vertex(1,-1,1);
-    //fps.vertex(1,1,-1);
-    
-    //fps.vertex(1, 0, -1/(float)Math.sqrt(2));
-    //fps.vertex(-1, 0, -1/(float)Math.sqrt(2));
-    //fps.vertex(0, 1, 1/(float)Math.sqrt(2));
-    //fps.vertex(-1, 0, -1/(float)Math.sqrt(2));
-    //fps.vertex(0, 1, 1/(float)Math.sqrt(2));
-    //fps.vertex(0, -1, 1/(float)Math.sqrt(2));
-    //fps.vertex(1, 0, -1/(float)Math.sqrt(2));
-    //fps.vertex(-1, 0, -1/(float)Math.sqrt(2));
-    //fps.vertex(0, -1, 1/(float)Math.sqrt(2));
-    //fps.vertex(1, 0, -1/(float)Math.sqrt(2));
-    //fps.vertex(0, 1, 1/(float)Math.sqrt(2));
-    //fps.vertex(0, -1, 1/(float)Math.sqrt(2));
-    
-    
-    fps.stroke(0,0,0);
-    fps.fill(100);
     fps.endShape();
+    
+    fps.fill(251, 90, 65);
+    fps.beginShape(TRIANGLES);
+    fps.vertex(-1,-1,-1);
+    fps.vertex(-1,1,1);
+    fps.vertex(1,-1,1);
+    fps.vertex(-1,1,1);
+    fps.vertex(1,-1,1);
+    fps.vertex(1,1,-1);
+    fps.vertex(-1,-1,-1);
+    fps.vertex(-1,1,1);
+    fps.vertex(1,1,-1);
+    fps.vertex(-1,-1,-1);
+    fps.vertex(1,-1,1);
+    fps.vertex(1,1,-1);
+    fps.endShape();
+    
+    fps.fill(226, 251, 65);
+    fps.beginShape(TRIANGLES);
+    fps.vertex(1, 0, -1/(float)Math.sqrt(2));
+    fps.vertex(-1, 0, -1/(float)Math.sqrt(2));
+    fps.vertex(0, 1, 1/(float)Math.sqrt(2));
+    fps.vertex(-1, 0, -1/(float)Math.sqrt(2));
+    fps.vertex(0, 1, 1/(float)Math.sqrt(2));
+    fps.vertex(0, -1, 1/(float)Math.sqrt(2));
+    fps.vertex(1, 0, -1/(float)Math.sqrt(2));
+    fps.vertex(-1, 0, -1/(float)Math.sqrt(2));
+    fps.vertex(0, -1, 1/(float)Math.sqrt(2));
+    fps.vertex(1, 0, -1/(float)Math.sqrt(2));
+    fps.vertex(0, 1, 1/(float)Math.sqrt(2));
+    fps.vertex(0, -1, 1/(float)Math.sqrt(2));
+    fps.endShape();
+
+    fps.fill(100);
+    fps.stroke(0,0,0);
   }
 }
