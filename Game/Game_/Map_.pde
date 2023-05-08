@@ -35,6 +35,7 @@ final class Map {
     for (int y = 0; y < land[0].length-1; y++) { //Rows
       fps.beginShape(TRIANGLE_STRIP);
       fps.noStroke();
+      //fps.stroke(1);
       for (int x = 0; x < land.length; x++) {    //Cols
         fps.fill(land[x][y].colour); //land colour
         fps.vertex(x*lod, land[x][y].h, y*lod);

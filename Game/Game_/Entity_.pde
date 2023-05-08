@@ -3,23 +3,31 @@ abstract class Entity {
   PVector pos, vel, acc, rPos, rVel, rAcc;
   
   //Mass and damping factor
-  float mass, damping, size, energy;
+  float mass, damping;
+  
+  //Attributes
+  float size, energy, hp, maxHP, dex, dmg, def;
+  
+  //Enemies
+  //ArrayList<Entity> enemies;
   
   public Entity() {
-    this(new PVector(0,0,0), new PVector(0,0,0), 1, 0, 1, 1);
-  }
-  
-  public Entity(PVector pos, PVector rPos, float mass, float damping, float size, float energy) {
-    this.pos = pos;
+    this.pos = new PVector(0,0,0);
     this.vel = new PVector(0,0,0);
     this.acc = new PVector(0,0,0);
-    this.rPos = rPos;
+    this.rPos = new PVector(0,0,0);
     this.rVel = new PVector(0,0,0);
     this.rAcc = new PVector(0,0,0);
-    this.mass = mass;
-    this.damping = damping;
-    this.size = size;
-    this.energy = energy;
+    this.mass = 1;
+    this.damping = 1;
+    this.size = 1;
+    this.energy = 1;
+    this.hp = 1;
+    this.maxHP = 1;
+    this.dex = 0.5;
+    this.dmg = 1;
+    this.def = 1;
+    //this.enemies = new ArrayList<>();
   }
   
   void run() {
@@ -54,5 +62,35 @@ abstract class Entity {
     fps.pushMatrix();
     this.draw();
     fps.popMatrix();
+  }
+  
+  boolean dead() {
+    return hp <= 0; 
+  }
+  
+  //PLAYER COMMANDS
+  void fire() {
+    Bullet bullet = new Bullet(this);
+    bullets.add(bullet);
+    bullet.fire();
+    this.hp -= this.energy * this.dmg;
+  }
+  
+  void dash() {
+    this.addForce(this.vel.mult(10));
+    this.hp -=  this.energy * 5 * this.dmg;
+  }
+  
+  void block() {
+    this.def = 0.5;
+    this.vel.mult(0.01);
+  }
+  
+  void hurt() {
+    this.hp -= 0.1 * def;  
+  }
+  
+  void heal() {
+    this.hp += 0.1;  
   }
 }

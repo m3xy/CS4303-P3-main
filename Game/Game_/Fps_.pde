@@ -4,23 +4,28 @@ PVector rPos = new PVector(0,0,0);
 float cameraZ = ((height/2.0) / tan(PI*30.0/180.0)); //(Default) Render distance
 float sensitivity = 0.001;
 View view = View.FPS;
-float zoom = 100;
+float zoom = 0;
 
 //MAP
 int w = 1920, h = 1080; //Width, Height
 int minH = 0;  //Minimum terrain height
 int maxH = 250;  //Maximum terrain height
 int lod = 50;  //Level of detail, (positive) Factor to divide the land into columns and rows (Recommended 50 but can go above/below slightly for more or less detail - values: 1 to 100)
-Map map = new Map(w, h, lod, minH, maxH); //Land, terrain of the game world
-
-//PLAYER
-Player player = new Player((w/2) + lod, (h/2) + lod);
+Map map; //Land, terrain of the game world
 
 //FIRE
-Fire fire = new Fire(w/2, h/2);
+Fire fire;
+
+//PLAYER
+Player player;
+
+//ENEMIES
+Enemies enemies;
 
 //BULLETS
 ArrayList<Bullet> bullets = new ArrayList<>();
+
+
 
 void drawFPS() {
   fps.beginDraw();
@@ -28,7 +33,7 @@ void drawFPS() {
   fps.background(20,20,25); //Dark BG (Dark sky)
   fps.lights();
   
-  fps.perspective(PI/3.0, float(width)/float(height), cameraZ/50.0, cameraZ*20.0); //Increase render distance
+  fps.perspective(PI/3.0, float(width)/float(height), cameraZ/50.0, cameraZ*25.0); //Increase render distance
   player.rPos.x -= sensitivity * (mouseY - height/2);
   player.rPos.y += sensitivity * (mouseX - width/2);
   //player.rPos.x = constrain(player.rPos.x, 0.000001, HALF_PI);
@@ -51,14 +56,32 @@ void drawFPS() {
   }
   fire.run();
   player.run();
+  enemies.run();
   for (Iterator<Bullet> iterator = bullets.iterator(); iterator.hasNext(); ) {
     Bullet bullet = iterator.next();
     bullet.run();
-    if ((int)bullet.vel.mag() < 1) {
+    if (bullet.dead()) {
       iterator.remove();
     }
   }
   map.draw();
   fps.endDraw();
   image(fps, 0, 0);
+  
+  //GAME OVER
+  if(player.dead())
+    state = State.LOSE;
+  if(fire.hp >= fire.maxHP)
+    state = State.WIN;
+}
+
+//(RE)START
+void restart() {
+  map = new Map(w, h, lod, minH, maxH);
+  float x = random(w);
+  float z = random(h);
+  fire = new Fire(x, z);
+  player = new Player(x, z, 100);
+  enemies = new Enemies();
+  view = View.FPS;
 }

@@ -3,11 +3,19 @@ long cooldown = 100; //ms
 final class Player extends Entity {
   boolean forward = false, backward = false, left = false, right = false, firing = false, blocking = false;
   long cd = 0;
-  float dex = 0.5, def = 1.0, dmg = 1.0;  //Stat multipliers
   
-  public Player(int x, int z) {
-    super(new PVector(x,0,z), new PVector(PI+QUARTER_PI,random(TWO_PI),0), 1, 0.5, 0.2, 100);
+  public Player(float x, float z, float hp) {
+    super();
+    this.pos.set(x,0,z);
+    this.rPos.set(PI+(4*QUARTER_PI/3),random(TWO_PI),0); //Look up and random directoin
+    this.damping = 0.5;
+    this.size = 20;
+    this.energy = 2; //Amount of health taken from using abilities
+    this.maxHP = hp;
+    this.hp = maxHP;
+
   }
+
   void update() {
     if(forward)
       this.addForce(new PVector(-dex*sin(this.rPos.y),0,-dex*cos(this.rPos.y)));
@@ -48,50 +56,29 @@ final class Player extends Entity {
       block();
     else
       this.def = 1.0;
-    
   }
   
   void draw() {
-    hero.setFill(color(255));
+    hero.setFill(color(255, map(this.hp, 0, this.maxHP, 0, 255)));
     fps.translate(this.pos.x, this.pos.y, this.pos.z);
     //fps.lightFalloff(0.8, 0.0, 0.00005); //Faster falloff
     //fps.pointLight(255, 255, 255, 0, maxH, 0);  //Vision light
     fps.rotateY(this.rPos.y + PI);
     //fps.rotateX(-this.rPos.x - HALF_PI);
     //fps.rotateZ(this.rPos.z);
+    if(blocking) {
+      fps.noFill();
+      fps.stroke(0);
+      //fps.strokeWeight(10);
+      fps.box(size);
+    }    
     switch(view) {
       case FPS:
         break;
-      case MAP:
-        fps.scale(size);
+      case MAP:      
+        fps.scale(0.2);
         fps.shape(hero);
-        
         break;
     }
-  }
-  
-  void fire() {
-    Bullet bullet = new Bullet(this);
-    bullets.add(bullet);
-    bullet.fire();
-    this.energy-=2;
-  }
-  
-  void dash() {
-    this.addForce(this.vel.mult(10));
-    this.energy-=5;
-  }
-  
-  void block() {
-    this.def = 0.5;
-    this.vel.mult(0.01);
-  }
-  
-  void hurt() {
-    this.energy -= 0.1 * def;  
-  }
-  
-  void heal() {
-    this.energy += 0.1;  
   }
 }

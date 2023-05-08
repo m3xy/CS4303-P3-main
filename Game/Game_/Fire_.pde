@@ -1,15 +1,21 @@
 final class Fire extends Entity {
-  float decay;
-  Fire(int x, int z) {
-    super(new PVector(x,0,z), new PVector(0,0,0), 1, 0, 1, Math.max(w, h)/2);
-    this.size = this.energy/25;
+  
+  Fire(float x, float z) {
+    super();
+    this.pos.set(x,0,z);
+    this.maxHP = Math.max(
+      Math.max(PVector.dist(this.pos, new PVector(0, this.pos.y, 0)), PVector.dist(this.pos, new PVector(w, this.pos.y, 0))),
+      Math.max(PVector.dist(this.pos, new PVector(0, this.pos.y, h)), PVector.dist(this.pos, new PVector(w, this.pos.y, h)))
+    );
+    //this.maxEnergy =  Math.max(Math.max(Math.abs(this.pos.x - w), this.pos.x), Math.max(Math.abs(this.pos.z - h), this.pos.z));
+    this.hp = maxHP/4; //Initially 25 percent
+    this.size = this.hp/20;
   }
   
   void update() {
     //Collision with land
     this.pos.x = constrain(this.pos.x, 0 + size/2, (map.land.length * map.lod) - map.lod - size/2);
     this.pos.z = constrain(this.pos.z, 0 + size/2, (map.land[0].length * map.lod) - map.lod - size/2);
-    //this.pos.y = map.land[(int)this.pos.x/map.lod][(int)this.pos.z/map.lod].h + 10;
     
     //Bilinear interpolation to find height
     float x = this.pos.x/map.lod;
@@ -27,29 +33,28 @@ final class Fire extends Entity {
     this.pos.y = (((z2-z)/(z2-z1))*f1) + (((z-z1)/(z2-z1))*f2);
     super.update();
     
-    
     //HEAL
-    if(PVector.dist(this.pos, player.pos) < this.energy && player.energy < 100 && this.energy > 0)
+    if(PVector.dist(this.pos, player.pos) < this.hp && player.hp < player.maxHP && this.hp > 0)
       player.heal();
     else
       player.hurt();  
       
     //DECAY
-    this.energy *= map(this.energy, 0, Math.max(w,h), 0.9998, 0.999);
-    if(this.energy <= lod)
-      this.energy = 0;
-    this.size = this.energy/25;
+    this.hp -= map(this.hp*this.hp, 0, this.maxHP*this.maxHP, 0.5, 1.0); //Quadratic falloff (Game gets more difficult as flame decays faster with size)
+    if(this.hp < lod)
+      this.hp = 0; //Game over
+    this.size = this.hp/20;
   }
   
   void draw() {
-    
-    fps.noStroke();
     fps.translate(this.pos.x, this.pos.y, this.pos.z);
-    fps.spotLight(251, 183, 65, 0, (energy/tan(QUARTER_PI)), 0, 0, -1, 0, QUARTER_PI, 5);  //LIGHTING
-    
+    fps.spotLight(251, 183, 65, 0, (this.hp/tan(QUARTER_PI)), 0, 0, -1, 0, QUARTER_PI, 5);  //LIGHTING
     //MODEL
-    fps.scale(this.size);  //Size of flame larger as energy increases
-    
+    //fps.sphere(size);
+    fps.scale(this.size/1.5);  //Size of flame larger as hp increases
+    if(PVector.dist(player.pos, this.pos) < this.size + player.size && view == View.FPS)
+      return;
+    fps.noStroke();
     //WOOD
     //fps.fill(164,116,73);
     //fps.box(4,0.4,0.4);
@@ -58,6 +63,7 @@ final class Fire extends Entity {
     //fps.box(4,0.4,0.4);
     //fps.box(0.4,0.4,4);
     //fps.translate(0, 0.5, 0);
+    
     
     //FIRE
     fps.rotateY(random(TWO_PI));
@@ -114,5 +120,12 @@ final class Fire extends Entity {
     
     fps.fill(100);
     fps.stroke(0);
+  }
+  
+  void feed(float fuel) {
+    if(this.hp < this.maxHP) {
+      this.hp += fuel;
+    }
+    
   }
 }

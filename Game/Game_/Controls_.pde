@@ -1,4 +1,5 @@
 void keyPressed() {
+  if(state != State.PLAY) return;
   if (key == CODED) {  
     switch (keyCode) {
     }
@@ -27,6 +28,7 @@ void keyPressed() {
 }
 
 void keyReleased() {
+  if(state != State.PLAY) return;
   if (key == CODED) {
     switch (keyCode) {
     }
@@ -54,17 +56,31 @@ void keyReleased() {
 }
 
 void mousePressed() {
-  switch(mouseButton) {
-    case LEFT :
-      player.firing = true;
+  switch(state) {
+    case MENU:
+      state = State.PLAY;
+      restart();
       break;
-    case RIGHT :
-      player.blocking = true;
+    case PLAY:
+      switch(mouseButton) {
+        case LEFT :
+          player.firing = true;
+          break;
+        case RIGHT :
+          player.blocking = true;
+          break;
+      }
+      break;
+    case WIN:
+    case LOSE:
+      state = State.MENU;
       break;
   }
+
 }
 
 void mouseReleased() {
+  if(state != State.PLAY) return;
   switch(mouseButton) {
     case LEFT :
       player.firing = false;
@@ -77,6 +93,7 @@ void mouseReleased() {
 
 //Detects scrolling mouse wheel
 void mouseWheel(MouseEvent event) {
+  if(state != State.PLAY) return;
   zoom += 20 * event.getCount(); //Used in views to zoom
-  zoom = constrain(zoom, -player.size*50, player.size*50);
+  zoom = constrain(zoom, -800, 800);
 }

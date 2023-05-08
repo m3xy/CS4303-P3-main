@@ -7,7 +7,7 @@ PGraphics fps, hud; //First Person Shooter, Heads-up display
 Robot robot;
 
 //GAME
-State state = State.PLAY;
+State state = State.MENU;
 
 //Player
 PShape hero;
@@ -30,6 +30,7 @@ void setup() {
   }catch(AWTException e) {
     System.err.println("Error: Setting up robot");
   }
+  restart();
 }
 
 //DRAW
@@ -46,6 +47,14 @@ void draw() {
       drawFPS();
       drawHUD();
       robot.mouseMove(width/2,height/2); //Move cursor back to center
+      break;
+    case WIN :
+      cursor();  //Show cursor
+      drawWIN();
+      break;
+    case LOSE :
+      cursor();  //Show cursor
+      drawLOSE();
       break;
   }
 }
