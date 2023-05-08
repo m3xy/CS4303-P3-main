@@ -1,7 +1,7 @@
 final class Fire extends Entity {
   float decay;
   Fire(int x, int z) {
-    super(new PVector(x,0,z), new PVector(0,0,0), 1, 0, 1, Math.max(w, h));
+    super(new PVector(x,0,z), new PVector(0,0,0), 1, 0, 1, Math.max(w, h)/2);
     this.size = this.energy/25;
   }
   
@@ -30,9 +30,9 @@ final class Fire extends Entity {
     
     //HEAL
     if(PVector.dist(this.pos, player.pos) < this.energy && player.energy < 100 && this.energy > 0)
-      player.energy += 0.1;
+      player.heal();
     else
-      player.energy -= 0.1;  
+      player.hurt();  
       
     //DECAY
     this.energy *= map(this.energy, 0, Math.max(w,h), 0.9998, 0.999);
@@ -45,7 +45,7 @@ final class Fire extends Entity {
     
     fps.noStroke();
     fps.translate(this.pos.x, this.pos.y, this.pos.z);
-    fps.spotLight(251, 183, 65, 0, (energy/tan(QUARTER_PI)), 0, 0, -1, 0, QUARTER_PI, 1);  //LIGHTING
+    fps.spotLight(251, 183, 65, 0, (energy/tan(QUARTER_PI)), 0, 0, -1, 0, QUARTER_PI, 5);  //LIGHTING
     
     //MODEL
     fps.scale(this.size);  //Size of flame larger as energy increases

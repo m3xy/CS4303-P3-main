@@ -3,7 +3,7 @@ final class Bullet extends Entity {
   Entity firer;
   
   Bullet(Entity firer) {
-    super(firer.pos.copy(), firer.rPos.copy(), 1, 0.95, 3, 50);
+    super(firer.pos.copy(), firer.rPos.copy(), 1, 0.95, 3, 80);
     this.firer = firer;
     this.pos.set(this.firer.pos.copy());
   }

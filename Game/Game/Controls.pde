@@ -16,6 +16,9 @@ void keyPressed() {
       case 'd' :
         player.right = true;
         break;
+      case ' ' :
+        player.dash();
+        break;
       case TAB :   //Map
         view = View.MAP;
         break;
@@ -56,7 +59,7 @@ void mousePressed() {
       player.firing = true;
       break;
     case RIGHT :
-      player.dash();
+      player.blocking = true;
       break;
   }
 }
@@ -65,6 +68,9 @@ void mouseReleased() {
   switch(mouseButton) {
     case LEFT :
       player.firing = false;
+      break;
+    case RIGHT :
+      player.blocking = false;
       break;
   }
 }

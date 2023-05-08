@@ -1,22 +1,22 @@
 long cooldown = 100; //ms
 
 final class Player extends Entity {
-  boolean forward = false, backward = false, left = false, right = false, firing = false;
+  boolean forward = false, backward = false, left = false, right = false, firing = false, blocking = false;
   long cd = 0;
-  float speed = 0.5;
+  float dex = 0.5, def = 1.0, dmg = 1.0;  //Stat multipliers
   
   public Player(int x, int z) {
-    super(new PVector(x,0,z), new PVector(PI+QUARTER_PI,random(TWO_PI),0), 1, 0.5, 0.25, 100);
+    super(new PVector(x,0,z), new PVector(PI+QUARTER_PI,random(TWO_PI),0), 1, 0.5, 0.2, 100);
   }
   void update() {
     if(forward)
-      this.addForce(new PVector(-speed*sin(this.rPos.y),0,-speed*cos(this.rPos.y)));
+      this.addForce(new PVector(-dex*sin(this.rPos.y),0,-dex*cos(this.rPos.y)));
     if(backward)
-      this.addForce(new PVector(speed*sin(this.rPos.y),0,speed*cos(this.rPos.y)));
+      this.addForce(new PVector(dex*sin(this.rPos.y),0,dex*cos(this.rPos.y)));
     if(left)
-      this.addForce(new PVector(speed*sin(this.rPos.y + HALF_PI),0,speed*cos(this.rPos.y + HALF_PI)));
+      this.addForce(new PVector(dex*sin(this.rPos.y + HALF_PI),0,dex*cos(this.rPos.y + HALF_PI)));
     if(right)
-      this.addForce(new PVector(speed*sin(this.rPos.y - HALF_PI),0,speed*cos(this.rPos.y - HALF_PI)));
+      this.addForce(new PVector(dex*sin(this.rPos.y - HALF_PI),0,dex*cos(this.rPos.y - HALF_PI)));
     super.update();
     
     //Collision with land
@@ -43,7 +43,11 @@ final class Player extends Entity {
       fire();
       cd = System.currentTimeMillis();
     }
-      
+    
+    if(blocking)
+      block();
+    else
+      this.def = 1.0;
     
   }
   
@@ -76,5 +80,18 @@ final class Player extends Entity {
   void dash() {
     this.addForce(this.vel.mult(10));
     this.energy-=5;
+  }
+  
+  void block() {
+    this.def = 0.5;
+    this.vel.mult(0.01);
+  }
+  
+  void hurt() {
+    this.energy -= 0.1 * def;  
+  }
+  
+  void heal() {
+    this.energy += 0.1;  
   }
 }
