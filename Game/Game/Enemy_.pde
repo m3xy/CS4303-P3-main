@@ -32,7 +32,7 @@ final class Enemy extends Entity {
     
     if(PVector.dist(this.pos, fire.pos) < fire.hp) //Hit fire
       this.hp -= 0.1;
-    if(PVector.dist(this.pos, player.pos) < this.size/2) {
+    if(PVector.dist(this.pos, player.pos) < this.size/2) { //Hit player
       this.hp = 0;
       this.energy = 0;
       player.hurt(0.2*player.maxHP);
