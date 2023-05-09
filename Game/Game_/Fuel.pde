@@ -15,7 +15,7 @@ final class Fuel extends Entity {
     //Collision detection
     if(PVector.dist(this.pos, player.pos) < this.size + player.size) {
       this.hp = 0;
-      player.heal(0.5 * player.maxHP);
+      player.heal(player.maxHP); //May overheal
     }
     
     this.hurt(0.1);

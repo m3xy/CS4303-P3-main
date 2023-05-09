@@ -8,7 +8,7 @@ final class Fire extends Entity {
       Math.max(PVector.dist(this.pos, new PVector(0, this.pos.y, h)), PVector.dist(this.pos, new PVector(w, this.pos.y, h)))
     );
     //this.maxEnergy =  Math.max(Math.max(Math.abs(this.pos.x - w), this.pos.x), Math.max(Math.abs(this.pos.z - h), this.pos.z));
-    this.hp = maxHP/4; //Initially 25 percent
+    this.hp = maxHP/2; //Initially 50 percent
     this.size = this.hp/20;
   }
   
@@ -27,7 +27,7 @@ final class Fire extends Entity {
       player.hurt(0.1);  
       
     //DECAY
-    this.hp -= map(this.hp*this.hp, 0, this.maxHP*this.maxHP, 0.5, 1.0); //Quadratic falloff (Game gets more difficult as flame decays faster with size)
+    this.hp -= map(this.hp*this.hp, 0, this.maxHP*this.maxHP, 0.6, 0.75); //Falloff (Game gets more difficult as flame decays faster with size)
     this.size = this.hp/20;
     this.colour = color(251, 183, 65);
   }

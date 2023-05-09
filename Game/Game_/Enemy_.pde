@@ -21,7 +21,7 @@ final class Enemy extends Entity {
     
     //Collision detection
     
-    if(PVector.dist(player.pos, fire.pos) > fire.hp && PVector.dist(this.pos, player.pos) < 10 * this.size)  //If player outside of fire radius and within range
+    if(PVector.dist(player.pos, fire.pos) > fire.hp && PVector.dist(this.pos, player.pos) < 20 * this.size)  //If player outside of fire radius and within range
       this.rPos.y = atan2(player.pos.x-this.pos.x, player.pos.z-this.pos.z); //Stares at player
     else if(PVector.dist(this.pos, fire.pos) < fire.hp * 1.05)
       this.rPos.y = atan2(this.pos.x-fire.pos.x, this.pos.z-fire.pos.z);

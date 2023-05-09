@@ -28,7 +28,7 @@ final class Bullet extends Entity {
         }
       }
       if(PVector.dist(this.pos, fire.pos) <= (this.size) + (fire.size)) {  //Hit fire
-        fire.feed((fire.maxHP/2.5) * (firer.energy/firer.maxHP) * firer.dmg); //Tined
+        fire.feed((fire.maxHP/2) * (firer.energy/firer.maxHP) * firer.dmg); //Tined
         this.hp = 0;
       }else if(this.pos.y < map.heightAt(this.pos)) { //Hit ground
         this.hp = 0;

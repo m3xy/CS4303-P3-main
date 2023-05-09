@@ -87,8 +87,8 @@ void drawFPS() {
 //(RE)START
 void restart() {
   map = new Map(w, h, lod, minH, maxH);
-  float x = random(w);
-  float z = random(h);
+  float x = random(w/3, (2*w)/3);
+  float z = random(h/3, (2*h)/3);
   fire = new Fire(x, z);
   player = new Player(x, z, 100);
   enemies = new Enemies();
