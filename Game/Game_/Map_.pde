@@ -46,4 +46,21 @@ final class Map {
     }
     //HUD
   }
+  
+  //Bilinear interpolation to find height
+  float heightAt(PVector pos) {
+    float x = pos.x/lod;
+    float z = pos.z/lod;
+    int x1 = (int)Math.floor(pos.x/lod);
+    int x2 = (int)Math.ceil(pos.x/lod);
+    int z1 = (int)Math.floor(pos.z/lod);
+    int z2 = (int)Math.ceil(pos.z/lod);
+    float f11 = map.land[x1][z1].h;
+    float f12 = map.land[x1][z2].h;
+    float f21 = map.land[x2][z1].h;
+    float f22 = map.land[x2][z2].h;
+    float f1 = (((x2-x)/(x2-x1))*f11) + (((x-x1)/(x2-x1))*f21);
+    float f2 = (((x2-x)/(x2-x1))*f12) + (((x-x1)/(x2-x1))*f22);
+    return (((z2-z)/(z2-z1))*f1) + (((z-z1)/(z2-z1))*f2);
+  }
 }

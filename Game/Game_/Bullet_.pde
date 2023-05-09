@@ -1,4 +1,4 @@
-PVector gravity = new PVector(0,-0.1,0);
+PVector gravity = new PVector(0,-0.2,0);
 
 final class Bullet extends Entity {
   
@@ -9,8 +9,8 @@ final class Bullet extends Entity {
     this.pos.set(firer.pos.copy());
     this.rPos.set(firer.rPos.copy());
     this.damping = 0.99;
-    this.size = 1.5;
-    this.energy = 22; //Bullet force
+    this.size = 3;
+    this.energy = 40; //Bullet force
     this.firer = firer;
     this.colour = color(251, 183, 65);
   }
@@ -19,7 +19,7 @@ final class Bullet extends Entity {
     super.update();
     
     //Collision detection
-    if(this.pos.x > 0 && this.pos.x < w && this.pos.z > 0 && this.pos.z < h) { //Within map
+    if(this.pos.x > size/2 && this.pos.x < (map.land.length * map.lod) - map.lod - size/2 && this.pos.z > size/2 && this.pos.z < (map.land[0].length * map.lod) - map.lod - size/2) { //Within map
       for (Iterator<Enemy> iterator = enemies.list.iterator(); iterator.hasNext(); ) { 
         Enemy enemy = iterator.next();
         if(PVector.dist(this.pos, enemy.pos) <= this.size + enemy.size) {  //Hit enemy
@@ -28,11 +28,12 @@ final class Bullet extends Entity {
         }
       }
       if(PVector.dist(this.pos, fire.pos) <= (this.size) + (fire.size)) {  //Hit fire
-        fire.feed((fire.maxHP/2.5) * (firer.energy/firer.maxHP) * firer.dmg);
+        fire.feed((fire.maxHP/2.4) * (firer.energy/firer.maxHP) * firer.dmg); //Tined
         this.hp = 0;
-      }
-      else if(this.pos.y < map.land[(int)constrain(this.pos.x, 0, w-lod)/lod][(int)constrain(this.pos.z, 0, h-lod)/lod].h) { //Hit ground
+      }else if(this.pos.y < map.heightAt(this.pos)) { //Hit ground
         this.hp = 0;
+        //this.vel.mult(0);
+        //this.colour = color(0,0);
       }
     } else {
      this.hp = 0; 
