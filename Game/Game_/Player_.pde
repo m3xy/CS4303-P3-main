@@ -13,7 +13,6 @@ final class Player extends Entity {
     this.energy = 2; //Amount of health taken from using abilities
     this.maxHP = hp;
     this.hp = maxHP;
-
   }
 
   void update() {
@@ -56,10 +55,12 @@ final class Player extends Entity {
       block();
     else
       this.def = 1.0;
+    
+    this.colour = color(255, map(this.hp, 0, this.maxHP, 0, 255));
   }
   
   void draw() {
-    hero.setFill(color(255, map(this.hp, 0, this.maxHP, 0, 255)));
+    hero.setFill(this.colour);
     fps.translate(this.pos.x, this.pos.y, this.pos.z);
     //fps.lightFalloff(0.8, 0.0, 0.00005); //Faster falloff
     //fps.pointLight(255, 255, 255, 0, maxH, 0);  //Vision light

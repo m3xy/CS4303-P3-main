@@ -7,9 +7,7 @@ abstract class Entity {
   
   //Attributes
   float size, energy, hp, maxHP, dex, dmg, def;
-  
-  //Enemies
-  //ArrayList<Entity> enemies;
+  color colour;
   
   public Entity() {
     this.pos = new PVector(0,0,0);
@@ -27,7 +25,7 @@ abstract class Entity {
     this.dex = 0.5;
     this.dmg = 1;
     this.def = 1;
-    //this.enemies = new ArrayList<>();
+    this.colour = color(255);
   }
   
   void run() {
@@ -54,6 +52,7 @@ abstract class Entity {
     rPos.add(rVel);
     acc.mult(0); //Clear acceleration/accumlator
     rAcc.mult(0);
+    this.hp = constrain(this.hp, 0, this.maxHP);
   }
   
   abstract void draw();
@@ -78,7 +77,7 @@ abstract class Entity {
   
   void dash() {
     this.addForce(this.vel.mult(10));
-    this.hp -=  this.energy * 5 * this.dmg;
+    this.hp -= this.energy * 2 * this.dmg;
   }
   
   void block() {
@@ -86,11 +85,11 @@ abstract class Entity {
     this.vel.mult(0.01);
   }
   
-  void hurt() {
-    this.hp -= 0.1 * def;  
+  void hurt(float damage) {
+    this.hp -= damage * def;
   }
   
-  void heal() {
-    this.hp += 0.1;  
+  void heal(float health) {
+    this.hp += health;
   }
 }

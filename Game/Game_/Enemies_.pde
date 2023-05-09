@@ -6,12 +6,20 @@ final class Enemies {
   }
   
   void run() {
-     if((int)random(60 * 5) == 1) {
-       list.add(new Enemy(random(w), random(h), 1));
-     }
+    if((int)random(60 * 5) == 1) {  //Roughly try spawn once every 5 seconds (assumes 60fps)
+      PVector pos = new PVector(random(w), 0, random(h));
+        if(PVector.dist(pos, fire.pos) >= fire.hp){
+        list.add(new Enemy(pos, 10));
+      } 
+    }
     for (Iterator<Enemy> iterator = list.iterator(); iterator.hasNext(); ) { 
       Enemy enemy = iterator.next();
       enemy.run();
+      if(enemy.dead()) {
+        enemy.drop();
+        iterator.remove();
+      }
+        
     }
   }
   

@@ -34,26 +34,29 @@ final class Fire extends Entity {
     super.update();
     
     //HEAL
-    if(PVector.dist(this.pos, player.pos) < this.hp && player.hp < player.maxHP && this.hp > 0)
-      player.heal();
+    if(PVector.dist(this.pos, player.pos) < this.hp)
+      player.heal(0.1);
     else
-      player.hurt();  
+      player.hurt(0.1);  
       
     //DECAY
     this.hp -= map(this.hp*this.hp, 0, this.maxHP*this.maxHP, 0.5, 1.0); //Quadratic falloff (Game gets more difficult as flame decays faster with size)
-    if(this.hp < lod)
-      this.hp = 0; //Game over
     this.size = this.hp/20;
+    this.colour = color(251, 183, 65);
   }
   
   void draw() {
     fps.translate(this.pos.x, this.pos.y, this.pos.z);
-    fps.spotLight(251, 183, 65, 0, (this.hp/tan(QUARTER_PI)), 0, 0, -1, 0, QUARTER_PI, 5);  //LIGHTING
+    fps.spotLight(251, 183, 65, 0, (this.hp/tan(QUARTER_PI)), 0, 0, -1, 0, QUARTER_PI, 1);  //LIGHTING
     //MODEL
     //fps.sphere(size);
-    fps.scale(this.size/1.5);  //Size of flame larger as hp increases
-    if(PVector.dist(player.pos, this.pos) < this.size + player.size && view == View.FPS)
-      return;
+    fps.scale(this.size/1.6);  //Size of flame larger as hp increases
+    if(PVector.dist(player.pos, this.pos) < this.size + player.size) { //If fire hits player
+      player.addForce(PVector.sub(player.pos, this.pos).normalize().mult(this.dex/2));
+      if(view == View.FPS)
+        return;
+    }
+      
     fps.noStroke();
     //WOOD
     //fps.fill(164,116,73);
@@ -70,7 +73,7 @@ final class Fire extends Entity {
     fps.rotateX(random(TWO_PI));
     fps.rotateZ(random(TWO_PI)); 
 
-    fps.fill(251, 183, 65);
+    fps.fill(this.colour);
     fps.beginShape(TRIANGLES);
     fps.vertex(1,1,1);
     fps.vertex(1,-1,-1);
@@ -126,6 +129,7 @@ final class Fire extends Entity {
     if(this.hp < this.maxHP) {
       this.hp += fuel;
     }
+    this.colour = color(255);
     
   }
 }

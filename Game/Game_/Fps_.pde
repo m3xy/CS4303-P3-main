@@ -23,8 +23,10 @@ Player player;
 Enemies enemies;
 
 //BULLETS
-ArrayList<Bullet> bullets = new ArrayList<>();
+ArrayList<Bullet> bullets;
 
+//FUEL
+ArrayList<Fuel> fuel;
 
 
 void drawFPS() {
@@ -64,12 +66,19 @@ void drawFPS() {
       iterator.remove();
     }
   }
+  for (Iterator<Fuel> iterator = fuel.iterator(); iterator.hasNext(); ) {
+    Fuel fuel = iterator.next();
+    fuel.run();
+    if (fuel.dead()) {
+      iterator.remove();
+    }
+  }
   map.draw();
   fps.endDraw();
   image(fps, 0, 0);
   
   //GAME OVER
-  if(player.dead())
+  if(player.dead() || fire.dead())
     state = State.LOSE;
   if(fire.hp >= fire.maxHP)
     state = State.WIN;
@@ -83,5 +92,7 @@ void restart() {
   fire = new Fire(x, z);
   player = new Player(x, z, 100);
   enemies = new Enemies();
+  bullets = new ArrayList<>();
+  fuel = new ArrayList<>();
   view = View.FPS;
 }
