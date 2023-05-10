@@ -97,6 +97,6 @@ void restart() {
   enemies = new Enemies();
   bullets = new ArrayList<>();
   fuel = new ArrayList<>();
-  bushes = new Bushes();
+  bushes = new Bushes(10);
   view = View.FPS;
 }
