@@ -15,6 +15,9 @@ PShape hero;
 //Enemy
 PShape ghost;
 
+//Bush
+PShape shrub;
+
 //SETUP
 void setup() {
   size(1920, 1080);
@@ -22,6 +25,7 @@ void setup() {
   h = height;
   hero = loadShape("hero.obj");
   ghost = loadShape("ghost.obj");
+  shrub = loadShape("shrub.obj");
   fullScreen(P2D, SPAN);                        //Menu
   fps = createGraphics(width, height, P3D);     //First person view
   hud = createGraphics(width, height, JAVA2D);  //Heads-up display

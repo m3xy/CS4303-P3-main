@@ -4,7 +4,6 @@ final class Fuel extends Entity {
     super();
     this.pos.set(x,y,z);
     this.size = 6;
-    this.mass = 0;
     this.maxHP = hp;
     this.hp = this.maxHP;
   }

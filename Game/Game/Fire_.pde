@@ -39,7 +39,7 @@ final class Fire extends Entity {
     //fps.sphere(size);
     fps.scale(this.size/1.6);  //Size of flame larger as hp increases
     if(PVector.dist(player.pos, this.pos) < this.size + player.size) { //If fire hits player
-      player.addForce(PVector.sub(player.pos, this.pos).normalize().mult(this.dex/2));
+      player.addForce(PVector.sub(player.pos, this.pos).normalize().mult(player.dex/2));
       if(view == View.FPS)
         return;
     }

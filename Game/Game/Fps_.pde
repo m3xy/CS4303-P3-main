@@ -28,6 +28,8 @@ ArrayList<Bullet> bullets;
 //FUEL
 ArrayList<Fuel> fuel;
 
+//BUSHES
+Bushes bushes;
 
 void drawFPS() {
   fps.beginDraw();
@@ -59,6 +61,7 @@ void drawFPS() {
   fire.run();
   player.run();
   enemies.run();
+  bushes.run();
   for (Iterator<Bullet> iterator = bullets.iterator(); iterator.hasNext(); ) {
     Bullet bullet = iterator.next();
     bullet.run();
@@ -94,5 +97,6 @@ void restart() {
   enemies = new Enemies();
   bullets = new ArrayList<>();
   fuel = new ArrayList<>();
+  bushes = new Bushes();
   view = View.FPS;
 }
