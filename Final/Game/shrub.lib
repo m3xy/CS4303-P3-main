@@ -10,4 +10,3 @@ newmtl phong9
 	illum 2
 	Ks 0 0 0
 	Ns 20
-	# map_Kd ./BushTexture001.png
