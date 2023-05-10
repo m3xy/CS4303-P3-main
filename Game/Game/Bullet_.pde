@@ -23,7 +23,7 @@ final class Bullet extends Entity {
       for (Iterator<Enemy> iterator = enemies.list.iterator(); iterator.hasNext(); ) { 
         Enemy enemy = iterator.next();
         if(PVector.dist(this.pos, enemy.pos) <= this.size + enemy.size) {  //Hit enemy
-          enemy.addForce(PVector.sub(enemy.pos, player.pos).normalize().mult(this.energy/2)); //Knockback
+          enemy.addForce(PVector.sub(enemy.pos, player.pos).normalize().mult(this.energy/2)); //Knockback from player not bullet
           enemy.hp -= firer.dmg * firer.energy;
           this.hp = 0;
         }
